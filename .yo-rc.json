@@ -1,0 +1,41 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.icthh.xm.tmf.ms.offering",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "5.7.2",
+    "applicationType": "microservice",
+    "baseName": "offering",
+    "packageName": "com.icthh.xm.tmf.ms.offering",
+    "packageFolder": "com/icthh/xm/tmf/ms/offering",
+    "serverPort": "8705",
+    "authenticationType": "uaa",
+    "uaaBaseName": "uaa",
+    "cacheProvider": "no",
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Memory",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "consul",
+    "buildTool": "gradle",
+    "enableSwaggerCodegen": true,
+    "jwtSecretKey": "MDE3NzQyMzdhYTc5Mjk1ODNkYzdjZDk0NThhNzIyODhjN2EwYWM3ZDZlZjI5MWRjNDk1MGFlNWM0OWY3ZDA3MDg0NTY2MDRkODlmODc5OTIxODI4YWFkMWVjYTkwYzA0ZWRhOTg1Y2U5ODYwNzY3ZGNkNzZlY2RhMDNiZGZmMjk=",
+    "testFrameworks": [
+      "gatling",
+      "cucumber"
+    ],
+    "jhiPrefix": "jhi",
+    "otherModules": [],
+    "enableTranslation": true,
+    "clientPackageManager": "npm",
+    "nativeLanguage": "en",
+    "languages": [
+      "en"
+    ],
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}
