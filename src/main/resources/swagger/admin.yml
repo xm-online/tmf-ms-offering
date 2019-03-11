@@ -4,7 +4,7 @@ info:
     description: This is Swagger UI environment generated for the TMF Product Catalog Management specification
     version: '2.2'
 host: serverRoot
-basePath: /tmf-api/productCatalogManagement/v2/
+basePath: /api/productCatalogManagement/v2/
 schemes:
     - https
 consumes:
