@@ -129,6 +129,10 @@ jhipster:
         license:
         license-url:
 
+base-package: com.icthh.xm.tmf.ms.offering
+xm-config:
+    enabled: false
+
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
