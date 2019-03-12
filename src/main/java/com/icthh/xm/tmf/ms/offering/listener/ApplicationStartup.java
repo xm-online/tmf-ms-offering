@@ -1,7 +1,8 @@
-package com.icthh.xm.tmf.ms.offering.config;
+package com.icthh.xm.tmf.ms.offering.listener;
 
 import com.icthh.xm.commons.logging.util.MdcUtils;
 import com.icthh.xm.commons.permission.inspector.PrivilegeInspector;
+import com.icthh.xm.tmf.ms.offering.config.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
