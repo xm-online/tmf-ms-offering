@@ -1,19 +1,21 @@
-/*
- * Plugin that provides API-first development using OpenAPI-generator to
- * generate Spring-MVC endpoint stubs at compile time from an OpenAPI definition file
- */
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
 buildscript {
     repositories {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath "org.openapitools:openapi-generator-gradle-plugin:3.3.1"
+        classpath "org.openapitools:openapi-generator-gradle-plugin:${openapi_plugin_version}"
     }
 }
 
-apply plugin: 'org.openapi.generator'
+/*
+ * Plugin that provides API-first development using OpenAPI-generator to
+ * generate Spring-MVC endpoint stubs at compile time from an OpenAPI definition file
+ */
+apply plugin: "org.openapi.generator"
 
-task openApiGenerateRegular(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+task openApiGenerateRegular(type: GenerateTask){
     generatorName = "spring"
     inputSpec = "$rootDir/src/main/resources/swagger/regular.yml".toString()
     outputDir = "$buildDir/openapi".toString()
@@ -22,11 +24,11 @@ task openApiGenerateRegular(type: org.openapitools.generator.gradle.plugin.tasks
     apiFilesConstrainedTo = [""]
     modelFilesConstrainedTo = [""]
     supportingFilesConstrainedTo = ["ApiUtil.java"]
-    configOptions = [delegatePattern: "true"]
+    //configOptions = [delegatePattern: "true", title: "offering"]
     validateSpec = true
 }
 
-task openApiGenerateAdmin(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+task openApiGenerateAdmin(type: GenerateTask){
     generatorName = "spring"
     inputSpec = "$rootDir/src/main/resources/swagger/admin.yml".toString()
     outputDir = "$buildDir/openapi".toString()
@@ -35,7 +37,7 @@ task openApiGenerateAdmin(type: org.openapitools.generator.gradle.plugin.tasks.G
     apiFilesConstrainedTo = [""]
     modelFilesConstrainedTo = [""]
     supportingFilesConstrainedTo = ["ApiUtil.java"]
-    configOptions = [delegatePattern: "true"]
+    //configOptions = [delegatePattern: "true", title: "offering"]
     validateSpec = true
 }
 
