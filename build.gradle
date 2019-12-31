@@ -98,18 +98,19 @@ if (OperatingSystem.current().isWindows()) {
     }
 }
 
-bootWar {
-    mainClassName = 'com.icthh.xm.tmf.ms.offering.OfferingApp'
-}
-
-war {
-
-}
-
 defaultTasks "bootWar"
 
 springBoot {
     mainClassName = "com.icthh.xm.tmf.ms.offering.OfferingApp"
+}
+
+bootWar {
+    mainClassName = 'com.icthh.xm.tmf.ms.offering.OfferingApp'
+    manifest {
+        attributes(
+            "Implementation-Version": archiveVersion
+        )
+    }
 }
 
 test {
