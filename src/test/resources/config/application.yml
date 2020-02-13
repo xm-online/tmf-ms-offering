@@ -43,10 +43,14 @@ spring:
             hibernate.generate_statistics: true
             hibernate.hbm2ddl.auto: validate
             hibernate.jdbc.time_zone: UTC
+            # see org.hibernate.cfg.AvailableSettings.PREFER_GENERATOR_NAME_AS_DEFAULT_SEQUENCE_NAME
+            hibernate.model.generator_name_as_sequence_name: false
     liquibase:
         contexts: test
     mail:
         host: localhost
+    main:
+        allow-bean-definition-overriding: true
     messages:
         basename: i18n/messages
     mvc:
@@ -54,7 +58,13 @@ spring:
             enabled: false
     thymeleaf:
         mode: HTML
-
+    cloud:
+        bus:
+            enabled: false
+        discovery:
+            enabled: false
+        consul:
+            enabled: false
 
 server:
     port: 10344
@@ -65,6 +75,11 @@ server:
 #
 # Full reference is available at: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
+management:
+    metrics:
+        export:
+            prometheus:
+                enabled: true
 
 jhipster:
     async:
@@ -91,9 +106,8 @@ jhipster:
             client-id: internal
             client-secret: internal
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
-        jmx.enabled: true
         logs: # Reports Dropwizard metrics in the logs
-            enabled: true
+            enabled: false
             report-frequency: 60 # in seconds
 
 # ===================================================================
