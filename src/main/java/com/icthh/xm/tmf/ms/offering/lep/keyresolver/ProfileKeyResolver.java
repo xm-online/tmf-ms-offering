@@ -18,6 +18,6 @@ public class ProfileKeyResolver extends AppendLepKeyResolver {
     protected String[] getAppendSegments(SeparatorSegmentedLepKey baseKey,
                                          LepMethod method,
                                          LepManagerService managerService) {
-        return new String[]{translateToLepConvention(headerRequestExtractor.get("profile"))};
+        return new String[]{translateToLepConvention(headerRequestExtractor.get("Profile"))};
     }
 }
