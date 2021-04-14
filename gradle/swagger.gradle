@@ -52,7 +52,7 @@ task openApiGenerateOffering(type: GenerateTask){
     validateSpec = true
 }
 
-task allOpenApiGenerate(dependsOn: ['openApiGenerateRegular', 'openApiGenerateAdmin'])
+task allOpenApiGenerate(dependsOn: ['openApiGenerateRegular', 'openApiGenerateAdmin', 'openApiGenerateOffering'])
 
 sourceSets {
     main {
