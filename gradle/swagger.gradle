@@ -39,20 +39,7 @@ task openApiGenerateAdmin(type: GenerateTask){
     validateSpec = true
 }
 
-task openApiGenerateOffering(type: GenerateTask){
-    generatorName = "spring"
-    inputSpec = "$rootDir/src/main/resources/swagger/offering.yml".toString()
-    outputDir = "$buildDir/openapi".toString()
-    apiPackage = "com.icthh.xm.tmf.ms.offering.web.api"
-    modelPackage = "com.icthh.xm.tmf.ms.offering.web.api.model"
-    apiFilesConstrainedTo = [""]
-    modelFilesConstrainedTo = [""]
-    supportingFilesConstrainedTo = ["ApiUtil.java"]
-    configOptions = [delegatePattern: "true"]
-    validateSpec = true
-}
-
-task allOpenApiGenerate(dependsOn: ['openApiGenerateRegular', 'openApiGenerateAdmin', 'openApiGenerateOffering'])
+task allOpenApiGenerate(dependsOn: ['openApiGenerateRegular', 'openApiGenerateAdmin'])
 
 sourceSets {
     main {
