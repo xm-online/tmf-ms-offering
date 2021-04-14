@@ -75,7 +75,7 @@ definitions:
                 description: Description of the category
             price:
                 type: integer
-                description: Зкшсу of the category
+                description: Price of the category
     Error:
         required:
             - error
