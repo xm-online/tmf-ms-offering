@@ -24,6 +24,7 @@ task openApiGenerateRegular(type: GenerateTask){
     apiFilesConstrainedTo = [""]
     modelFilesConstrainedTo = [""]
     supportingFilesConstrainedTo = ["ApiUtil.java"]
+    configOptions = [delegatePattern: "true"]
     validateSpec = true
 }
 
@@ -36,6 +37,7 @@ task openApiGenerateAdmin(type: GenerateTask){
     apiFilesConstrainedTo = [""]
     modelFilesConstrainedTo = [""]
     supportingFilesConstrainedTo = ["ApiUtil.java"]
+    configOptions = [delegatePattern: "true"]
     validateSpec = true
 }
 
