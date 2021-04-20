@@ -21,6 +21,7 @@ public class ApplicationProperties {
 
     private final Lep lep = new Lep();
     private List<String> tenantIgnoredPathList = Collections.emptyList();
+    private List<String> timelineIgnoredHttpMethods = Collections.emptyList();
     private final Retry retry = new Retry();
     private boolean kafkaEnabled;
     private String kafkaSystemTopic;
