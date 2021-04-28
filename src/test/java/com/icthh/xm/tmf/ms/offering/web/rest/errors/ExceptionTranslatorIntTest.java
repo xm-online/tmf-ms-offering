@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 /**
  * Test class for the ExceptionTranslator controller advice.
  *
- * @see ExceptionTranslator
+ * @see ZalandoExceptionTranslator
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {SecurityBeanOverrideConfiguration.class, OfferingApp.class})
@@ -32,7 +32,7 @@ public class ExceptionTranslatorIntTest {
     private ExceptionTranslatorTestController controller;
 
     @Autowired
-    private ExceptionTranslator exceptionTranslator;
+    private ZalandoExceptionTranslator zalandoExceptionTranslator;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -42,7 +42,7 @@ public class ExceptionTranslatorIntTest {
     @Before
     public void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
-            .setControllerAdvice(exceptionTranslator)
+            .setControllerAdvice(zalandoExceptionTranslator)
             .setMessageConverters(jacksonMessageConverter)
             .build();
     }
