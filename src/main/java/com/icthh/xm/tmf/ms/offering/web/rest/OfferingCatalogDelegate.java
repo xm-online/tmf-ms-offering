@@ -24,7 +24,7 @@ public class OfferingCatalogDelegate implements CategoryApiDelegate {
     @Override
     @PrivilegeDescription("Privilege to get a product offering category")
     @LogicExtensionPoint(value = "ListCategory", resolver = ProfileChannelKeyResolver.class)
-    @PreAuthorize("hasPermission({'profile': #profile, 'channelId': #channelId}, 'OFFERING.CATEGORY.LIST')")
+    @PreAuthorize("hasPermission({'profile': @headerRequestExtractor.get('profile'), 'channelId': @headerRequestExtractor.get('channel')}, 'OFFERING.CATEGORY.LIST')")
     public ResponseEntity<List<Category>> listCategory(String fields, Integer offset, Integer limit) {
         getRequest().ifPresent(request -> log.info("Native request {}", getRequest().get().getNativeRequest()));
         return ResponseEntity.ok(asList(new Category()));
