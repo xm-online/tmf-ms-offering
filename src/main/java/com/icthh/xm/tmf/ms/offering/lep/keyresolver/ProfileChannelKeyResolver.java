@@ -13,8 +13,8 @@ public class ProfileChannelKeyResolver extends AppendLepKeyResolver {
     protected String[] getAppendSegments(SeparatorSegmentedLepKey baseKey,
                                          LepMethod method,
                                          LepManagerService managerService) {
-        String profile = getRequiredParam(method, "Profile", String.class);
-        String channel = getRequiredParam(method, "Channel", String.class);
+        String profile = getRequiredParam(method, "profile", String.class);
+        String channel = getRequiredParam(method, "channel", String.class);
         return new String[]{translateToLepConvention(profile), translateToLepConvention(channel)};
     }
 }
