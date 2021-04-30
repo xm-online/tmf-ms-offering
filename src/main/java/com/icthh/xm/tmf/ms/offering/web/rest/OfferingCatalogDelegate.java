@@ -1,11 +1,9 @@
 package com.icthh.xm.tmf.ms.offering.web.rest;
 
-import static java.util.Arrays.asList;
-
 import com.icthh.xm.commons.lep.LogicExtensionPoint;
 import com.icthh.xm.commons.lep.spring.LepService;
 import com.icthh.xm.commons.permission.annotation.PrivilegeDescription;
-import com.icthh.xm.tmf.ms.offering.lep.keyresolver.ProfileChannelKeyResolver;
+import com.icthh.xm.tmf.ms.offering.lep.keyresolver.ProfileKeyResolver;
 import com.icthh.xm.tmf.ms.offering.web.api.CategoryApiDelegate;
 import com.icthh.xm.tmf.ms.offering.web.api.model.Category;
 import io.micrometer.core.annotation.Timed;
@@ -17,16 +15,15 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@LepService(group = "service", name = "default")
+@LepService(group = "service")
 public class OfferingCatalogDelegate implements CategoryApiDelegate {
 
     @Timed
     @Override
-    @PrivilegeDescription("Privilege to get a product offering category")
-    @LogicExtensionPoint(value = "ListCategory", resolver = ProfileChannelKeyResolver.class)
-    @PreAuthorize("hasPermission({'profile': #profile, 'channelId': #channelId}, 'OFFERING.CATEGORY.LIST')")
+    @PrivilegeDescription("Privilege to list a product offering category")
+    @LogicExtensionPoint(value = "ListCategory", resolver = ProfileKeyResolver.class)
+    @PreAuthorize("hasPermission({'profile': @headerRequestExtractor.get('profile'), 'channelId': @headerRequestExtractor.get('channel')}, 'OFFERING.CATEGORY.LIST')")
     public ResponseEntity<List<Category>> listCategory(String fields, Integer offset, Integer limit) {
-        getRequest().ifPresent(request -> log.info("Native request {}", getRequest().get().getNativeRequest()));
-        return ResponseEntity.ok(asList(new Category()));
+        return ResponseEntity.ok().build();
     }
 }
