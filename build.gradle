@@ -347,7 +347,6 @@ wrapper {
     gradleVersion = "6.0.1"
 }
 
-bootWar.dependsOn war
 compileJava.dependsOn processResources
 processResources.dependsOn cleanResources,bootBuildInfo
 bootBuildInfo.mustRunAfter cleanResources
