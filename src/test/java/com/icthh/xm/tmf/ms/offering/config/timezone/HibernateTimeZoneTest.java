@@ -4,6 +4,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.icthh.xm.tmf.ms.offering.OfferingApp;
+import com.icthh.xm.tmf.ms.offering.config.TestLepConfiguration;
 import com.icthh.xm.tmf.ms.offering.repository.timezone.DateTimeWrapper;
 import com.icthh.xm.tmf.ms.offering.repository.timezone.DateTimeWrapperRepository;
 import java.time.Instant;
@@ -30,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Unit tests for the UTC Hibernate configuration.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = OfferingApp.class)
+@SpringBootTest(classes = {TestLepConfiguration.class, OfferingApp.class})
 public class HibernateTimeZoneTest {
 
     @Autowired
