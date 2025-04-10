@@ -5,6 +5,7 @@ package com.icthh.xm.tmf.ms.offering.lep;
  */
 public final class LepXmAccountMsConstants {
 
+    // simple check
     public static final String BINDING_KEY_COMMONS = "commons";
     public static final String BINDING_KEY_SERVICES = "services";
     public static final String BINDING_SUB_KEY_SERVICE_TENANT_CONFIG_SERICE = "tenantConfigService";
