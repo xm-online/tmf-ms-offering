@@ -11,30 +11,34 @@ addons:
     - master
 
 script:
-  - set -e
-  - "./gradlew --no-daemon --refresh-dependencies clean check test"
-  - "./gradlew -x test -Pprod --no-daemon bootWar"
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - export DOCKER_REPO=$(echo  -n $TRAVIS_REPO_SLUG | sed -e 's/^xm-online\//xmonline\//g')
-  - export IMAGE_BRANCH=$(echo -n $TRAVIS_BRANCH | sed -e 's/\//-/g')
-  - export PROJECT_VERSION="$IMAGE_BRANCH"
-  - if [ "$IMAGE_BRANCH" == "master" ];
-    then
-        ./gradlew -x test --no-daemon
+    - set -e
+    - "./gradlew --no-daemon --refresh-dependencies clean check test"
+    - "./gradlew -x test -Pprod --no-daemon bootWar"
+    - docker login -u $DOCKER_USER -p $DOCKER_PASS
+    - export DOCKER_REPO=$(echo  -n $TRAVIS_REPO_SLUG | sed -e 's/^xm-online\//xmonline\//g')
+    - export IMAGE_BRANCH=$(echo -n $TRAVIS_BRANCH | sed -e 's/\//-/g')
+    - export PROJECT_VERSION="$IMAGE_BRANCH"
+    - if [ "$TRAVIS_PULL_REQUEST" == "false" ];
+        then
+        PROJECT_VERSION=$(./gradlew -q  getProjectVersion);
+        export SONAR_PK=$(echo  -n $TRAVIS_REPO_SLUG | sed -e 's/\//:/g');
         TAGS="$PROJECT_VERSION $PROJECT_VERSION-$TRAVIS_BUILD_NUMBER $(echo $PROJECT_VERSION | awk -F '.' '{printf $1"."$2" "$1}') latest";
-    else
-        TAGS="$IMAGE_BRANCH $IMAGE_BRANCH-$TRAVIS_BUILD_NUMBER";
-    fi
-  - docker build -t app-docker-img --label commit_id="$TRAVIS_COMMIT" --label version="$PROJECT_VERSION" --label build_number="$TRAVIS_BUILD_NUMBER" --label build_url="$TRAVIS_BUILD_WEB_URL" --label git_url="$TRAVIS_REPO_SLUG" --label commit_message="$TRAVIS_COMMIT_MESSAGE" -f src/main/docker/Dockerfile .
-  - for TAG in $TAGS;
-    do
-        docker tag app-docker-img $DOCKER_REPO:$TAG;
-        docker push $DOCKER_REPO:$TAG;
-    done
-
+        fi
+    - TAG_ARGS=""
+    - for TAG in $TAGS;
+        do
+        TAG_ARGS="$TAG_ARGS -t $DOCKER_REPO:$TAG";
+        done
+    - if [ "$TAG_ARGS" ];
+        then
+        docker buildx create --name multi-arch --platform "linux/amd64,linux/arm64,linux/arm64/v8,linux/arm/v8" --driver "docker-container" --use;
+        docker buildx build --platform linux/amd64,linux/arm64,linux/arm64/v8,linux/arm/v8 $TAG_ARGS --label commit_id="$TRAVIS_COMMIT" --label version="$PROJECT_VERSION" --label build_number="$TRAVIS_BUILD_NUMBER" --label build_url="$TRAVIS_BUILD_WEB_URL" --label git_url="$TRAVIS_REPO_SLUG" --label commit_message="$TRAVIS_COMMIT_MESSAGE" --push -f src/main/docker/Dockerfile .;
+        docker buildx rm multi-arch || true;
+        fi
 cache:
-  directories:
-  - "~/.gradle/"
+    directories:
+        - "~/.gradle"
+        - "~/.m2"
 env:
   global:
   - secure: XZx/UeDgzj5bOxm4tpwfHkUOhxuRow/lORV535iZyWKvkSA4vIXgg56K4mouMaFztOZlszW9lvlMxynp5R5YK8rQoIeRTJxXttu15FQp4CzLCQVRF2ldL1Xp7AYBrtMQdUp8MxJx4ONbJnyD0VogFTrqUfYdoRqh+XkwAynECk+GM6bocDLXyaZQqxCCH0plKHn9wCDXrd2yQnpV1Nw5y0l8YUE24Sm4cBPhZs7aqQ/tk79n+Tw2uWJeBteRjHqh+zoJTGEoLn3p/TCclA0xutMcewinsITxZhcvrBLnkWANGMHCLtPooUXrvK7h8rYUMPjb90r2wHHVvzmHC05NkEuRR04pOlB6wnTVLuYqJ+uq+sCzTzLCqe4g3jIuLCP4Jmmgmq84t7M4PZNIe67PqJdHprx/wJF4FB4HZaq4LfTjE7/KbuwPcZvhpF5iUXXfLkg3bj6T4HxaTXA07XuYo9nMUDpoQpdhHHhVFPuSdgW8GJPStDnNw6GaSWSZXp8Cp0sRxZuQYaaaH9AOLb/llYqawkwaqmt/22Qf8YunPxAdf4RDEKPvgziU7vsLMB7h8D7cXbK0zmjprODy0I7xJRYq4ZDNYwTyLTU7VuWL1DcO7yCxMtQm0wH+G1pB7IkL8kIE4Yg4jUat5QCPCsDvIGfZtxCyVRYltz+8JAZ8F40=
