@@ -119,7 +119,7 @@ test {
 
     testLogging {
         events "passed", "failed", "skipped", "standardOut", "standardError"
-        showStandardStreams = true
+        showStandardStreams = false
         exceptionFormat = 'full'
     }
     // uncomment if the tests reports are not generated
