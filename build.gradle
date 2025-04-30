@@ -26,9 +26,6 @@ plugins {
     id "net.ltgt.apt"
     id "org.liquibase.gradle"
     id "org.sonarqube"
-    id "com.github.spotbugs"
-    id 'checkstyle'
-    id 'pmd'
     id 'war'
     id "io.spring.dependency-management"
     //jhipster-needle-gradle-plugins - JHipster will add additional gradle plugins here
@@ -119,7 +116,7 @@ test {
 
     testLogging {
         events "passed", "failed", "skipped", "standardOut", "standardError"
-        showStandardStreams = true
+        showStandardStreams = false
         exceptionFormat = 'full'
     }
     // uncomment if the tests reports are not generated
@@ -183,23 +180,6 @@ liquibase {
     }
 
     runList = project.ext.runList
-}
-
-checkstyle {
-    toolVersion = "${checkstyle_version}"
-    ignoreFailures = true
-    configFile = rootProject.file('./qa/checkstyle.xml')
-}
-
-spotbugs {
-    ignoreFailures = true
-}
-
-pmd {
-    rulePriority = 3
-    toolVersion = "${pmd_version}"
-    ignoreFailures = true
-    ruleSetFiles = files("./qa/pmd.xml")
 }
 
 configurations {
