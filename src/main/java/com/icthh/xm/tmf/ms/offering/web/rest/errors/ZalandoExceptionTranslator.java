@@ -30,11 +30,15 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.zalando.problem.AbstractThrowableProblem;
@@ -96,8 +100,28 @@ public class ZalandoExceptionTranslator extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers,
                                                              HttpStatusCode statusCode, WebRequest request) {
-        return respond(withMessage(statusCode.value(), reasonPhrase(statusCode.value()), ex.getMessage(), request),
+        return respond(withMessage(statusCode.value(), reasonPhrase(statusCode.value()), legacyDetail(ex), request),
             statusCode, headers);
+    }
+
+    /**
+     * Spring 6 reworded some exception messages; the {@code detail} keeps the Spring 5 wording clients got before.
+     */
+    private static String legacyDetail(Exception ex) {
+        if (ex instanceof HttpRequestMethodNotSupportedException methodEx) {
+            return "Request method '" + methodEx.getMethod() + "' not supported";
+        }
+        if (ex instanceof HttpMediaTypeNotSupportedException mediaEx && mediaEx.getContentType() != null) {
+            return "Content type '" + mediaEx.getContentType() + "' not supported";
+        }
+        if (ex instanceof MissingServletRequestParameterException paramEx) {
+            return "Required " + paramEx.getParameterType() + " parameter '" + paramEx.getParameterName()
+                + "' is not present";
+        }
+        if (ex instanceof MissingServletRequestPartException partEx) {
+            return "Required request part '" + partEx.getRequestPartName() + "' is not present";
+        }
+        return ex.getMessage();
     }
 
     @ExceptionHandler
