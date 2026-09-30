@@ -14,28 +14,21 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-feign:
-    hystrix:
-        enabled: true
+#feign:
 #    client:
 #        config:
 #            default:
 #                connectTimeout: 5000
 #                readTimeout: 5000
 
-# See https://github.com/Netflix/Hystrix/wiki/Configuration
-hystrix:
-    command:
-        default:
-            execution:
-                isolation:
-                    strategy: SEMAPHORE
-# See https://github.com/spring-cloud/spring-cloud-netflix/issues/1330
-#                    thread:
-#                        timeoutInMilliseconds: 10000
-    shareSecurityContext: true
-
 management:
+    tracing:
+        export:
+            enabled: ${MANAGEMENT_TRACING_EXPORT_ENABLED:false}
+    otlp:
+        metrics:
+            export:
+                enabled: ${MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED:false}
     endpoints:
         web:
             base-path: /management
@@ -44,6 +37,8 @@ management:
     endpoint:
         health:
             show-details: when-authorized
+        jhimetrics:
+            enabled: true
     info:
         git:
             mode: full
@@ -57,8 +52,9 @@ management:
             logback: true
             process: true
             system: true
-        export:
-            prometheus:
+    prometheus:
+        metrics:
+            export:
                 enabled: true
                 step: 60
 spring:
@@ -67,6 +63,7 @@ spring:
     cloud:
         consul:
             discovery:
+                query-passing: true
                 healthCheckPath: /management/health
                 instanceId: ${spring.application.name}:${spring.application.instance-id:${random.value}}
             config:
@@ -76,27 +73,19 @@ spring:
         open-in-view: false
         properties:
             hibernate.jdbc.time_zone: UTC
-            # see org.hibernate.cfg.AvailableSettings.PREFER_GENERATOR_NAME_AS_DEFAULT_SEQUENCE_NAME
-            hibernate.model.generator_name_as_sequence_name: false
+            hibernate.timezone.default_storage: NORMALIZE
+            hibernate.type.preferred_instant_jdbc_type: TIMESTAMP
         hibernate:
             ddl-auto: none
             naming:
-                physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-                implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+                physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+                implicit-strategy: org.springframework.boot.hibernate.SpringImplicitNamingStrategy
     main:
       allow-bean-definition-overriding: true
     messages:
         basename: i18n/messages
-    mvc:
-        favicon:
-            enabled: false
     thymeleaf:
         mode: HTML
-security:
-    oauth2:
-        resource:
-            filter-order: 3
-
 server:
     servlet:
         session:
@@ -129,17 +118,13 @@ jhipster:
         #max-age: 1800
     mail:
         from: offering@localhost
-    swagger:
-        default-include-pattern: /api/.*
+    api-docs:
+        default-include-pattern: ${server.servlet.context-path:}/api/**
+        management-include-pattern: ${server.servlet.context-path:}/management/**
         title: offering API
         description: offering API documentation
-        version: 0.0.1
-        terms-of-service-url:
-        contact-name:
-        contact-url:
-        contact-email:
-        license:
-        license-url:
+    security:
+        content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com data:"
 
 base-package: com.icthh.xm.tmf.ms.offering
 xm-config:
@@ -161,7 +146,7 @@ application:
     kafka-system-topic: system_topic
     kafka-system-queue: system_queue
 
-    tenant-ignored-path-list: /swagger-resources/configuration/ui, /management/health, /oauth/token_key, /h2-console
+    tenant-ignored-path-list: /swagger-resources/configuration/ui, /management/health, /oauth/token_key, /h2-console, /v3/api-docs
     lep:
         tenant-script-storage: XM_MS_CONFIG
         lep-resource-path-pattern: /config/tenants/{tenantName}/entity/lep/resources/**/*
