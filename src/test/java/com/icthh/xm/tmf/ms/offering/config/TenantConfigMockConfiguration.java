@@ -1,5 +1,6 @@
 package com.icthh.xm.tmf.ms.offering.config;
 
+import com.icthh.xm.commons.config.client.repository.CommonConfigRepository;
 import com.icthh.xm.commons.config.client.repository.TenantConfigRepository;
 import com.icthh.xm.commons.config.client.repository.TenantListRepository;
 import com.icthh.xm.commons.config.client.service.TenantConfigService;
@@ -31,6 +32,11 @@ public class TenantConfigMockConfiguration {
 
         when(mockTenantListRepository.getTenants()).thenReturn(tenants);
         return mockTenantListRepository;
+    }
+
+    @Bean
+    public CommonConfigRepository commonConfigRepository() {
+        return mock(CommonConfigRepository.class);
     }
 
     @Bean

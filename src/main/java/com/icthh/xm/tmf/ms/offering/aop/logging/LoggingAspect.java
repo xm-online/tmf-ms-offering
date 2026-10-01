@@ -1,6 +1,5 @@
 package com.icthh.xm.tmf.ms.offering.aop.logging;
 
-import io.github.jhipster.config.JHipsterConstants;
 import java.util.Arrays;
 
 import lombok.RequiredArgsConstructor;
@@ -13,6 +12,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
+import tech.jhipster.config.JHipsterConstants;
 
 /**
  * Aspect for logging execution of service and repository Spring components.
@@ -55,7 +55,7 @@ public class LoggingAspect {
     @AfterThrowing(pointcut = "applicationPackagePointcut() && springBeanPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
         if (env.acceptsProfiles(Profiles.of(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT))) {
-            log.error("Exception in {}.{}() with cause = '{}' and exception = '{}'", joinPoint.getSignature().getDeclaringTypeName(),
+            log.error("Exception in {}.{}() with cause = \'{}\' and exception = \'{}\'", joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName(), e.getCause() != null? e.getCause() : "NULL", e.getMessage(), e);
 
         } else {
