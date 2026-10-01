@@ -25,7 +25,7 @@ void createOpenApiGenerateTask(String taskName, String ymlName) {
         apiFilesConstrainedTo = [""]
         modelFilesConstrainedTo = [""]
         supportingFilesConstrainedTo = ["ApiUtil.java"]
-        configOptions = [delegatePattern: "true", title: "offering", useSpringBoot3: "true", useJakartaEe: "true",
+        configOptions = [delegatePattern: "true", useSpringBoot3: "true", useJakartaEe: "true",
                          // Jackson 3 deserializes through a required-args constructor: absent fields became null
                          // instead of the model defaults. The 4.x generator had no such constructor
                          generatedConstructorWithRequiredArgs: "false",
