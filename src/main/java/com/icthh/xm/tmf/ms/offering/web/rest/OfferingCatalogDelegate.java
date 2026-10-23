@@ -6,7 +6,6 @@ import com.icthh.xm.commons.permission.annotation.PrivilegeDescription;
 import com.icthh.xm.tmf.ms.offering.lep.keyresolver.ProfileKeyResolver;
 import com.icthh.xm.tmf.ms.offering.web.api.CategoryApiDelegate;
 import com.icthh.xm.tmf.ms.offering.web.api.model.Category;
-import io.micrometer.core.annotation.Timed;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Component;
 @LepService(group = "service")
 public class OfferingCatalogDelegate implements CategoryApiDelegate {
 
-    @Timed
     @Override
     @PrivilegeDescription("Privilege to list a product offering category")
     @LogicExtensionPoint(value = "ListCategory", resolver = ProfileKeyResolver.class)
