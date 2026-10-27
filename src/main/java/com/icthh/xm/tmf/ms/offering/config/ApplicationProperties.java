@@ -1,5 +1,6 @@
 package com.icthh.xm.tmf.ms.offering.config;
 
+import com.icthh.xm.commons.config.XmCommonsApplicationProperties;
 import com.icthh.xm.commons.lep.TenantScriptStorage;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +18,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
-public class ApplicationProperties {
+public class ApplicationProperties extends XmCommonsApplicationProperties {
 
     private final Lep lep = new Lep();
     private List<String> tenantIgnoredPathList = Collections.emptyList();
